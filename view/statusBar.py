@@ -9,4 +9,4 @@ class StatusBar(QWidget):
         self.statusbar.setObjectName("statusbar")
         self.statusbar.setStyleSheet(
             "#statusbar{background-color:white;color:black;border:none;border-radius:2px;font-weight: bloder }")
-        self.statusbar.showMessage("采集空闲")
+        self.statusbar.showMessage("空闲")

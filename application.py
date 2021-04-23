@@ -110,7 +110,6 @@ class MainWindowApp(QMainWindow, QWidget):
             self.result_panel.selectionchange(0)
         elif i == 2:
             self.update()
-            self.dataVisualPanel.update()
         else:
             pass
         # # 更新ceche的配置参数

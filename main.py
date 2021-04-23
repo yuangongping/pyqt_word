@@ -1,11 +1,9 @@
 # coding: utf-8
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
 from application import *
-# from register import *
-
+from model.db import create_engine_by_conf, make_session
+from model.tables import User
 
 class Ui_MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
@@ -75,7 +73,8 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
     def login_check(self):
         login_user = self.lineEdit.text()
         login_password = self.lineEdit_2.text()
-        if login_user == 'admin' and login_password == '123456':
+        user = session.query(User).filter(User.username == login_user).first()
+        if user.password == login_password :
             app_w.show()
             MainWindow.close()
         else:
@@ -149,14 +148,19 @@ class Register(QtWidgets.QMainWindow):
         register_w.close()
 
     def register(self):
-        login_user = self.lineEdit.text()
-        login_password = self.lineEdit_2.text()
-        if login_user == 'admin' and login_password == '123456':
-            MainWindow.show()
-            register_w.close()
+        user_name = self.lineEdit.text()
+        password = self.lineEdit_2.text()
+        user = User()
+        user.username = user_name
+        user.password = password
+        session.add(user)
+        session.commit()
+        QMessageBox.warning(self, "提示", "注册成功！", QMessageBox.Yes)
 
 
 if __name__ == "__main__":
+    # 数据库初始化
+    session = make_session(create_engine_by_conf())
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
