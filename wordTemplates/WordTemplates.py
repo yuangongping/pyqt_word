@@ -1,21 +1,18 @@
 # coding: utf-8
 import os
-from docx import Document
+from docxtpl import DocxTemplate, InlineImage
 
-class NetworkChecked(object):
+
+class Docxtpl(object):
     @staticmethod
-    def disableNetwork():
-        result = os.system(u"netsh interface set interface 以太网 disable")
-        if result == 1:
-            print("aaaaaa")
-        else:
-            print("disable")
+    def genarater(data):
+        try:
+            tpl = DocxTemplate('wordTemplates/实验报告模板.docx')
+            tpl.render(data)
+            tpl.save("output/的劳动合同.docx")
+            print("aaaaaaaaaaaaaaaaaaaaaaaa")
+            return True
+        except:
+            return False
 
-    @classmethod
-    def start_ping(cls, address):
-        ip = u'ping -n 1 -w 1 ' + address
-        result = os.system(ip)
-        if result:
-            return "网络不通, 请检查！"
-        else:
-            return "网络正常！"
+

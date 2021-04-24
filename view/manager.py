@@ -1,11 +1,11 @@
 # # coding: utf-8
-from PyQt5.QtWidgets import QFormLayout, QWidget, QLabel, QPushButton, QGridLayout
-from PyQt5.QtCore import Qt, QEvent
+from PyQt5.QtWidgets import QWidget, QLabel, QPushButton, QMessageBox
 from PyQt5.QtGui import QFont
-from PyQt5 import QtCore
 from PyQt5.Qt import QLineEdit
 from PyQt5.QtCore import pyqtSignal
-
+from PyQt5 import QtCore
+from wordTemplates.WordTemplates import Docxtpl
+from view.message import Message
 
 class Manager(QtCore.QThread):
     signal = pyqtSignal(str)
@@ -16,262 +16,272 @@ class Manager(QtCore.QThread):
     def __init__(self):
         # 执行当前类的初始化方法
         super(Manager, self).__init__()
-        # 表单组件
-        self.manager_layout = QGridLayout()
-        # 设置垂直方向的间隙
-        self.manager_layout.setVerticalSpacing(20)
         # 容器组件
         self.Qwidgetlayout = QWidget()
-        # 设置容器布局为表单布局
-        self.Qwidgetlayout.setLayout(self.manager_layout)
         # 这是组件名称
         self.Qwidgetlayout.setObjectName("Qwidgetlayout")
+        self.Qwidgetlayout.setFixedHeight(900)
 
-
-        self.school_num = QLabel("学号：")
+        self.school_num = QLabel(self.Qwidgetlayout)
         self.school_num.setFont(QFont("Microsoft YaHei"))
-        self.manager_layout.addWidget(self.school_num, 0,0,1,1,Qt.AlignLeft)
-        self.school_num_input = QLineEdit()
+        self.school_num.setGeometry(QtCore.QRect(0, 10, 100, 20))
+        self.school_num.setText("学号：")
+        self.school_num_input = QLineEdit(self.Qwidgetlayout)
         self.school_num_input.setText('')
-        self.manager_layout.addWidget(self.school_num_input, 0, 2,1,8, Qt.AlignLeft)
-        self.year_label = QLabel("年：")
+        self.school_num_input.setGeometry(QtCore.QRect(50, 10, 150, 20))
+
+        self.year_label = QLabel(self.Qwidgetlayout)
         self.year_label.setFont(QFont("Microsoft YaHei"))
-        self.manager_layout.addWidget(self.year_label, 0, 10,1,1)
-        self.year_input = QLineEdit()
-        self.year_input.setEchoMode(QLineEdit.Password)
+        self.year_label.setGeometry(QtCore.QRect(220, 10, 100, 20))
+        self.year_label.setText("年：")
+        self.year_input = QLineEdit(self.Qwidgetlayout)
         self.year_input.setText('')
-        self.manager_layout.addWidget(self.year_input,0,11,1,6)
+        self.year_input.setGeometry(QtCore.QRect(250, 10, 150, 20))
 
-
-        self.reason_label = QLabel("季度：")
+        self.reason_label = QLabel(self.Qwidgetlayout)
         self.reason_label.setFont(QFont("Microsoft YaHei"))
-        self.manager_layout.addWidget(self.reason_label, 1, 0, 1, 1, Qt.AlignLeft)
-        self.reason_input = QLineEdit()
-        self.reason_input.setPlaceholderText("")
+        self.reason_label.setGeometry(QtCore.QRect(420, 10, 100, 20))
+        self.reason_label.setText("季度：")
+        self.reason_input = QLineEdit(self.Qwidgetlayout)
         self.reason_input.setText('')
-        self.manager_layout.addWidget(self.reason_input, 1, 2, 1, 8, Qt.AlignLeft)
+        self.reason_input.setGeometry(QtCore.QRect(460, 10, 150, 20))
 
-        self.week_label = QLabel("第几周：")
+        self.week_label = QLabel(self.Qwidgetlayout)
         self.week_label.setFont(QFont("Microsoft YaHei"))
-        self.manager_layout.addWidget(self.week_label, 1, 10, 1, 1, Qt.AlignLeft)
-        self.week_input = QLineEdit()
-        self.week_input.setPlaceholderText("")
+        self.week_label.setGeometry(QtCore.QRect(620, 10, 100, 20))
+        self.week_label.setText("周：")
+        self.week_input = QLineEdit(self.Qwidgetlayout)
         self.week_input.setText('')
-        self.manager_layout.addWidget(self.week_input, 1, 11, 1, 6,  Qt.AlignLeft)
+        self.week_input.setGeometry(QtCore.QRect(650, 10, 150, 20))
+        #
 
-        self.xingqi_label = QLabel("上课星期：")
+        self.xingqi_label = QLabel(self.Qwidgetlayout)
         self.xingqi_label.setFont(QFont("Microsoft YaHei"))
-        self.manager_layout.addWidget(self.reason_label, 1, 0, 1, 1, Qt.AlignLeft)
-        self.xingqi_input = QLineEdit()
-        self.xingqi_input.setPlaceholderText("")
+        self.xingqi_label.setGeometry(QtCore.QRect(800, 10, 100, 20))
+        self.xingqi_label.setText("上课星期：")
+        self.xingqi_input = QLineEdit(self.Qwidgetlayout)
         self.xingqi_input.setText('')
-        self.manager_layout.addWidget(self.reason_input, 1, 2, 1, 8, Qt.AlignLeft)
+        self.xingqi_input.setGeometry(QtCore.QRect(860, 10, 150, 20))
 
-        self.lesson_num_label = QLabel("第几节课：")
+        self.lesson_num_label = QLabel(self.Qwidgetlayout)
         self.lesson_num_label.setFont(QFont("Microsoft YaHei"))
-        self.manager_layout.addWidget(self.week_label, 1, 10, 1, 1, Qt.AlignLeft)
-        self.lesson_num_input = QLineEdit()
-        self.lesson_num_input.setPlaceholderText("")
+        self.lesson_num_label.setGeometry(QtCore.QRect(1030, 10, 100, 20))
+        self.lesson_num_label.setText("第几节课：")
+        self.lesson_num_input = QLineEdit(self.Qwidgetlayout)
         self.lesson_num_input.setText('')
-        self.manager_layout.addWidget(self.week_input, 1, 11, 1, 6, Qt.AlignLeft)
+        self.lesson_num_input.setGeometry(QtCore.QRect(1100, 10, 150, 20))
 
-        self.student_name_label = QLabel("学生姓名：")
+        self.student_name_label = QLabel(self.Qwidgetlayout)
         self.student_name_label.setFont(QFont("Microsoft YaHei"))
-        self.manager_layout.addWidget(self.reason_label, 1, 0, 1, 1, Qt.AlignLeft)
-        self.student_name_input = QLineEdit()
-        self.student_name_input.setPlaceholderText("")
+        self.student_name_label.setGeometry(QtCore.QRect(0, 40, 100, 20))
+        self.student_name_label.setText("学生姓名：")
+        self.student_name_input = QLineEdit(self.Qwidgetlayout)
         self.student_name_input.setText('')
-        self.manager_layout.addWidget(self.reason_input, 1, 2, 1, 8, Qt.AlignLeft)
+        self.student_name_input.setGeometry(QtCore.QRect(50, 40, 150, 20))
 
-        self.professional_class_label = QLabel("专业班级：")
+        self.professional_class_label = QLabel(self.Qwidgetlayout)
         self.professional_class_label.setFont(QFont("Microsoft YaHei"))
-        self.manager_layout.addWidget(self.week_label, 1, 10, 1, 1, Qt.AlignLeft)
-        self.professional_class_input = QLineEdit()
-        self.professional_class_input.setPlaceholderText("")
+        self.professional_class_label.setGeometry(QtCore.QRect(220, 40, 100, 20))
+        self.professional_class_label.setText("专业班级：")
+        self.professional_class_input = QLineEdit(self.Qwidgetlayout)
         self.professional_class_input.setText('')
-        self.manager_layout.addWidget(self.week_input, 1, 11, 1, 6, Qt.AlignLeft)
+        self.professional_class_input.setGeometry(QtCore.QRect(280, 40, 150, 20))
 
-        self.project_name_label = QLabel("项目名称：")
+        self.project_name_label = QLabel(self.Qwidgetlayout)
         self.project_name_label.setFont(QFont("Microsoft YaHei"))
-        self.manager_layout.addWidget(self.reason_label, 1, 0, 1, 1, Qt.AlignLeft)
-        self.project_name_input = QLineEdit()
-        self.project_name_input.setPlaceholderText("")
+        self.project_name_label.setGeometry(QtCore.QRect(450, 40, 100, 20))
+        self.project_name_label.setText("项目名称：")
+        self.project_name_input = QLineEdit(self.Qwidgetlayout)
         self.project_name_input.setText('')
-        self.manager_layout.addWidget(self.reason_input, 1, 2, 1, 8, Qt.AlignLeft)
+        self.project_name_input.setGeometry(QtCore.QRect(520, 40, 150, 20))
 
-        self.project_hours_label = QLabel("项目学时：")
+        self.project_hours_label = QLabel(self.Qwidgetlayout)
         self.project_hours_label.setFont(QFont("Microsoft YaHei"))
-        self.manager_layout.addWidget(self.week_label, 1, 10, 1, 1, Qt.AlignLeft)
-        self.project_hours_input = QLineEdit()
-        self.project_hours_input.setPlaceholderText("")
+        self.project_hours_label.setGeometry(QtCore.QRect(680, 40, 100, 20))
+        self.project_hours_label.setText("项目学时：")
+        self.project_hours_input = QLineEdit(self.Qwidgetlayout)
         self.project_hours_input.setText('')
-        self.manager_layout.addWidget(self.week_input, 1, 11, 1, 6, Qt.AlignLeft)
+        self.project_hours_input.setGeometry(QtCore.QRect(740, 40, 150, 20))
 
-        self.teacher_label = QLabel("指导教师：")
+        self.teacher_label = QLabel(self.Qwidgetlayout)
         self.teacher_label.setFont(QFont("Microsoft YaHei"))
-        self.manager_layout.addWidget(self.reason_label, 1, 0, 1, 1, Qt.AlignLeft)
-        self.teacher_input = QLineEdit()
-        self.teacher_input.setPlaceholderText("")
+        self.teacher_label.setGeometry(QtCore.QRect(910, 40, 100, 20))
+        self.teacher_label.setText("指导教师：")
+        self.teacher_input = QLineEdit(self.Qwidgetlayout)
         self.teacher_input.setText('')
-        self.manager_layout.addWidget(self.reason_input, 1, 2, 1, 8, Qt.AlignLeft)
+        self.teacher_input.setGeometry(QtCore.QRect(980, 40, 150, 20))
 
-        self.score_label = QLabel("实验成绩：")
+        self.score_label = QLabel(self.Qwidgetlayout)
         self.score_label.setFont(QFont("Microsoft YaHei"))
-        self.manager_layout.addWidget(self.week_label, 1, 10, 1, 1, Qt.AlignLeft)
-        self.score_input = QLineEdit()
-        self.score_input.setPlaceholderText("")
+        self.score_label.setGeometry(QtCore.QRect(1150, 40, 100, 20))
+        self.score_label.setText("实验成绩：")
+        self.score_input = QLineEdit(self.Qwidgetlayout)
         self.score_input.setText('')
-        self.manager_layout.addWidget(self.week_input, 1, 11, 1, 6, Qt.AlignLeft)
+        self.score_input.setGeometry(QtCore.QRect(1220, 40, 150, 20))
 
-        self.experiment_project_label = QLabel("实验项目：")
+        self.experiment_project_label = QLabel(self.Qwidgetlayout)
         self.experiment_project_label.setFont(QFont("Microsoft YaHei"))
-        self.manager_layout.addWidget(self.reason_label, 1, 0, 1, 1, Qt.AlignLeft)
-        self.experiment_project_input = QLineEdit()
-        self.experiment_project_input.setPlaceholderText("")
+        self.experiment_project_label.setGeometry(QtCore.QRect(0, 70, 100, 20))
+        self.experiment_project_label.setText("实验项目：")
+        self.experiment_project_input = QLineEdit(self.Qwidgetlayout)
         self.experiment_project_input.setText('')
-        self.manager_layout.addWidget(self.reason_input, 1, 2, 1, 8, Qt.AlignLeft)
+        self.experiment_project_input.setGeometry(QtCore.QRect(150, 70, 1200, 20))
 
-        self.purpose_label = QLabel("实验目的：")
+        self.purpose_label = QLabel(self.Qwidgetlayout)
         self.purpose_label.setFont(QFont("Microsoft YaHei"))
-        self.manager_layout.addWidget(self.week_label, 1, 10, 1, 1, Qt.AlignLeft)
-        self.purpose_input = QLineEdit()
-        self.purpose_input.setPlaceholderText("")
+        self.purpose_label.setGeometry(QtCore.QRect(0, 100, 100, 20))
+        self.purpose_label.setText("实验目的：")
+        self.purpose_input = QLineEdit(self.Qwidgetlayout)
         self.purpose_input.setText('')
-        self.manager_layout.addWidget(self.week_input, 1, 11, 1, 6, Qt.AlignLeft)
+        self.purpose_input.setGeometry(QtCore.QRect(150, 100, 1200, 80))
 
-        self.principle_label = QLabel("实验原理：")
+        self.principle_label = QLabel(self.Qwidgetlayout)
         self.principle_label.setFont(QFont("Microsoft YaHei"))
-        self.manager_layout.addWidget(self.reason_label, 1, 0, 1, 1, Qt.AlignLeft)
-        self.principle_input = QLineEdit()
-        self.principle_input.setPlaceholderText("")
+        self.principle_label.setGeometry(QtCore.QRect(0, 190, 100, 20))
+        self.principle_label.setText("实验原理：")
+        self.principle_input = QLineEdit(self.Qwidgetlayout)
         self.principle_input.setText('')
-        self.manager_layout.addWidget(self.reason_input, 1, 2, 1, 8, Qt.AlignLeft)
+        self.principle_input.setGeometry(QtCore.QRect(150, 190, 1200, 80))
 
-
-        self.step_label = QLabel("实验步骤：")
+        self.step_label = QLabel(self.Qwidgetlayout)
         self.step_label.setFont(QFont("Microsoft YaHei"))
-        self.manager_layout.addWidget(self.week_label, 1, 10, 1, 1, Qt.AlignLeft)
-        self.step_input = QLineEdit()
-        self.step_input.setPlaceholderText("")
+        self.step_label.setGeometry(QtCore.QRect(0, 280, 100, 20))
+        self.step_label.setText("实验步骤：")
+        self.step_input = QLineEdit(self.Qwidgetlayout)
         self.step_input.setText('')
-        self.manager_layout.addWidget(self.week_input, 1, 11, 1, 6, Qt.AlignLeft)
+        self.step_input.setGeometry(QtCore.QRect(150, 280, 1200, 80))
 
-        self.operation_recording_label = QLabel("实验操作及数据记录：")
+        self.operation_recording_label = QLabel(self.Qwidgetlayout)
         self.operation_recording_label.setFont(QFont("Microsoft YaHei"))
-        self.manager_layout.addWidget(self.reason_label, 1, 0, 1, 1, Qt.AlignLeft)
-        self.operation_recording_input = QLineEdit()
-        self.operation_recording_input.setPlaceholderText("")
+        self.operation_recording_label.setGeometry(QtCore.QRect(0, 370, 150, 20))
+        self.operation_recording_label.setText("实验操作及数据记录：")
+        self.operation_recording_input = QLineEdit(self.Qwidgetlayout)
         self.operation_recording_input.setText('')
-        self.manager_layout.addWidget(self.reason_input, 1, 2, 1, 8, Qt.AlignLeft)
+        self.operation_recording_input.setGeometry(QtCore.QRect(150, 370, 1200, 80))
 
-        self.data_processing_label = QLabel("实验数据处理：")
+        self.data_processing_label = QLabel(self.Qwidgetlayout)
         self.data_processing_label.setFont(QFont("Microsoft YaHei"))
-        self.manager_layout.addWidget(self.week_label, 1, 10, 1, 1, Qt.AlignLeft)
-        self.data_processing_input = QLineEdit()
-        self.data_processing_input.setPlaceholderText("")
+        self.data_processing_label.setGeometry(QtCore.QRect(0, 460, 150, 20))
+        self.data_processing_label.setText("实验数据处理：")
+        self.data_processing_input = QLineEdit(self.Qwidgetlayout)
         self.data_processing_input.setText('')
-        self.manager_layout.addWidget(self.week_input, 1, 11, 1, 6, Qt.AlignLeft)
+        self.data_processing_input.setGeometry(QtCore.QRect(150, 460, 1200, 80))
 
-        self.conclusion_label = QLabel("实验结论：")
+        self.conclusion_label = QLabel(self.Qwidgetlayout)
         self.conclusion_label.setFont(QFont("Microsoft YaHei"))
-        self.manager_layout.addWidget(self.reason_label, 1, 0, 1, 1, Qt.AlignLeft)
-        self.conclusion_input = QLineEdit()
-        self.conclusion_input.setPlaceholderText("")
+        self.conclusion_label.setGeometry(QtCore.QRect(0, 550, 150, 20))
+        self.conclusion_label.setText("实验结论：")
+        self.conclusion_input = QLineEdit(self.Qwidgetlayout)
         self.conclusion_input.setText('')
-        self.manager_layout.addWidget(self.reason_input, 1, 2, 1, 8, Qt.AlignLeft)
+        self.conclusion_input.setGeometry(QtCore.QRect(150, 550, 1200, 80))
 
-        self.error_analysis_label = QLabel("系统误差的分析：")
+        self.error_analysis_label = QLabel(self.Qwidgetlayout)
         self.error_analysis_label.setFont(QFont("Microsoft YaHei"))
-        self.manager_layout.addWidget(self.week_label, 1, 10, 1, 1, Qt.AlignLeft)
-        self.error_analysis_input = QLineEdit()
-        self.error_analysis_input.setPlaceholderText("")
+        self.error_analysis_label.setGeometry(QtCore.QRect(0, 640, 150, 20))
+        self.error_analysis_label.setText("系统误差的分析：")
+        self.error_analysis_input = QLineEdit(self.Qwidgetlayout)
         self.error_analysis_input.setText('')
-        self.manager_layout.addWidget(self.week_input, 1, 11, 1, 6, Qt.AlignLeft)
+        self.error_analysis_input.setGeometry(QtCore.QRect(150, 640, 1200, 80))
 
-        self.summary_label = QLabel("实验总结：")
+        self.summary_label = QLabel(self.Qwidgetlayout)
         self.summary_label.setFont(QFont("Microsoft YaHei"))
-        self.manager_layout.addWidget(self.reason_label, 1, 0, 1, 1, Qt.AlignLeft)
-        self.summary_input = QLineEdit()
-        self.summary_input.setPlaceholderText("")
+        self.summary_label.setGeometry(QtCore.QRect(0, 740, 150, 20))
+        self.summary_label.setText("实验总结：")
+        self.summary_input = QLineEdit(self.Qwidgetlayout)
         self.summary_input.setText('')
-        self.manager_layout.addWidget(self.reason_input, 1, 2, 1, 8, Qt.AlignLeft)
+        self.summary_input.setGeometry(QtCore.QRect(150, 740, 1200, 80))
 
-        self.score_preview_label = QLabel("实验成绩评定_预习：")
+        self.score_preview_label = QLabel(self.Qwidgetlayout)
         self.score_preview_label.setFont(QFont("Microsoft YaHei"))
-        self.manager_layout.addWidget(self.week_label, 1, 10, 1, 1, Qt.AlignLeft)
-        self.score_preview_input = QLineEdit()
-        self.score_preview_input.setPlaceholderText("")
+        self.score_preview_label.setGeometry(QtCore.QRect(0, 840, 80, 20))
+        self.score_preview_label.setText("成绩_预习：")
+        self.score_preview_input = QLineEdit(self.Qwidgetlayout)
         self.score_preview_input.setText('')
-        self.manager_layout.addWidget(self.week_input, 1, 11, 1, 6, Qt.AlignLeft)
+        self.score_preview_input.setGeometry(QtCore.QRect(80, 840, 150, 20))
 
-        self.score_attendance_classroom_discipline_label = QLabel("实验成绩评定_出勤和课堂纪律：")
-        self.score_attendance_classroom_discipline_label.setFont(QFont("Microsoft YaHei"))
-        self.manager_layout.addWidget(self.reason_label, 1, 0, 1, 1, Qt.AlignLeft)
+        self.score_preview_label = QLabel(self.Qwidgetlayout)
+        self.score_preview_label.setFont(QFont("Microsoft YaHei"))
+        self.score_preview_label.setGeometry(QtCore.QRect(230, 840, 150, 20))
+        self.score_preview_label.setText("成绩_出勤和课堂纪律：")
+        self.score_preview_input = QLineEdit(self.Qwidgetlayout)
+        self.score_preview_input.setText('')
+        self.score_preview_input.setGeometry(QtCore.QRect(360, 840, 150, 20))
 
-        self.score_attendance_classroom_discipline_input = QLineEdit()
-        self.score_attendance_classroom_discipline_input.setPlaceholderText("")
-        self.score_attendance_classroom_discipline_input.setText('')
-        self.manager_layout.addWidget(self.reason_input, 1, 2, 1, 8, Qt.AlignLeft)
-
-        self.score_operation_performance_label = QLabel("实验成绩评定_操作表现：")
+        self.score_operation_performance_label = QLabel(self.Qwidgetlayout)
         self.score_operation_performance_label.setFont(QFont("Microsoft YaHei"))
-        self.manager_layout.addWidget(self.week_label, 1, 10, 1, 1, Qt.AlignLeft)
-        self.score_operation_performance_input = QLineEdit()
-        self.score_operation_performance_input.setPlaceholderText("")
+        self.score_operation_performance_label.setGeometry(QtCore.QRect(520, 840, 150, 20))
+        self.score_operation_performance_label.setText("成绩_操作表现：")
+        self.score_operation_performance_input = QLineEdit(self.Qwidgetlayout)
         self.score_operation_performance_input.setText('')
-        self.manager_layout.addWidget(self.week_input, 1, 11, 1, 6, Qt.AlignLeft)
+        self.score_operation_performance_input.setGeometry(QtCore.QRect(620, 840, 150, 20))
 
-        self.score_data_processing_label = QLabel("实验成绩评定_数据处理：")
+        self.score_data_processing_label = QLabel(self.Qwidgetlayout)
         self.score_data_processing_label.setFont(QFont("Microsoft YaHei"))
-        self.manager_layout.addWidget(self.reason_label, 1, 0, 1, 1, Qt.AlignLeft)
-        self.score_data_processing_input = QLineEdit()
-        self.score_data_processing_input.setPlaceholderText("")
+        self.score_data_processing_label.setGeometry(QtCore.QRect(770, 840, 150, 20))
+        self.score_data_processing_label.setText("成绩_数据处理：")
+        self.score_data_processing_input = QLineEdit(self.Qwidgetlayout)
         self.score_data_processing_input.setText('')
-        self.manager_layout.addWidget(self.reason_input, 1, 2, 1, 8, Qt.AlignLeft)
+        self.score_data_processing_input.setGeometry(QtCore.QRect(870, 840, 150, 20))
 
-        self.score_error_analysis_label = QLabel("实验成绩评定_误差分析：")
+
+        self.score_error_analysis_label = QLabel(self.Qwidgetlayout)
         self.score_error_analysis_label.setFont(QFont("Microsoft YaHei"))
-        self.manager_layout.addWidget(self.week_label, 1, 10, 1, 1, Qt.AlignLeft)
-        self.score_error_analysis_input = QLineEdit()
-        self.score_error_analysis_input.setPlaceholderText("")
+        self.score_error_analysis_label.setGeometry(QtCore.QRect(1030, 840, 150, 20))
+        self.score_error_analysis_label.setText("成绩_误差分析：")
+        self.score_error_analysis_input = QLineEdit(self.Qwidgetlayout)
         self.score_error_analysis_input.setText('')
-        self.manager_layout.addWidget(self.week_input, 1, 11, 1, 6, Qt.AlignLeft)
+        self.score_error_analysis_input.setGeometry(QtCore.QRect(1120, 840, 150, 20))
 
-        self.score_report_writing_label = QLabel("实验成绩评定_报告书写：")
+        self.score_report_writing_label = QLabel(self.Qwidgetlayout)
         self.score_report_writing_label.setFont(QFont("Microsoft YaHei"))
-        self.manager_layout.addWidget(self.reason_label, 1, 0, 1, 1, Qt.AlignLeft)
-        self.score_report_writing_input = QLineEdit()
-        self.score_report_writing_input.setPlaceholderText("")
+        self.score_report_writing_label.setGeometry(QtCore.QRect(0, 870, 150, 20))
+        self.score_report_writing_label.setText("成绩_报告书写：")
+        self.score_report_writing_input = QLineEdit(self.Qwidgetlayout)
         self.score_report_writing_input.setText('')
-        self.manager_layout.addWidget(self.reason_input, 1, 2, 1, 8, Qt.AlignLeft)
+        self.score_report_writing_input.setGeometry(QtCore.QRect(100, 870, 150, 20))
 
-        self.btn_login = QPushButton("启动")
-        self.btn_login.setFixedWidth(100)
-        self.btn_login.setFixedHeight(30)
-        self.btn_login.setFont(QFont("Microsoft YaHei"))
-        self.btn_login.setObjectName("login_btn")
-        self.manager_layout.addRow(self.btn_login)
+        self.btn_start = QPushButton(self.Qwidgetlayout)
+        self.btn_start.setFont(QFont("Microsoft YaHei"))
+        self.btn_start.setGeometry(QtCore.QRect(270, 870, 150, 20))
+        self.btn_start.setText("生成模板")
+        self.btn_start.setObjectName("btn_start")
+        self.btn_start.clicked.connect(self.genTemplate)
 
-
-    def eventFilter(self, obj, event):
-        """
-        事件监听函数
-        :param obj:
-        :param event:
-        :return:
-        """
-        try:
-            # 如果为密码输入框的事件
-            if obj == self.password_input:
-                # 如果事件类型为焦点进入函数
-                if event.type() == QEvent.FocusIn:
-                    # 将密码输入框的类型改为普通的输入框的类型，达到密码可见的功能
-                    self.password_input.setEchoMode(QLineEdit.Normal)
-                elif event.type() == QEvent.FocusOut:
-                    self.password_input.setEchoMode(QLineEdit.Password)
-            else:
-                pass
-        except:
-            pass
-        finally:
-            return QWidget.eventFilter(self, obj, event)
+    def genTemplate(self):
+        data = {
+            "school_num": self.school_num_input.text(),
+            "year": self.year_input.text(),
+            "reason": self.reason_input.text(),
+            "week": self.week_input.text(),
+            "xingqi": self.xingqi_input.text(),
+            "lesson_num": self.lesson_num_input.text(),
+            "student_name": self.student_name_input.text(),
+            "professional_class": self.professional_class_input.text(),
+            "project_name": self.project_name_input.text(),
+            "project_hours": self.project_hours_input.text(),
+            "teacher": self.teacher_input.text(),
+            "score": self.score_input.text(),
+            "experiment_project": self.experiment_project_input.text(),
+            "purpose": self.purpose_input.text(),
+            "principle": self.principle_input.text(),
+            "step": self.step_input.text(),
+            "operation_recording": self.operation_recording_input.text(),
+            "data_processing": self.data_processing_input.text(),
+            "conclusion": self.conclusion_input.text(),
+            "error_analysis": self.error_analysis_input.text(),
+            "summaryt": self.summary_input.text(),
+            "score_preview": self.score_preview_input.text(),
+            "score_attendance_classroom_discipline": self.score_preview_input.text(),
+            "score_operation_performance": self.score_operation_performance_input.text(),
+            "score_data_processing": self.score_data_processing_input.text(),
+            "score_error_analysis": self.score_error_analysis_input.text(),
+            "score_report_writing": self.score_report_writing_input.text(),
+            "experimental_equipment": [
+                {"index": 1, "name": "a", "info": "dsads", "num": "1", "status": "dads", "remarks": "dasdsadsa"},
+                {"index": 2, "name": "b", "info": "dsads", "num": "2", "status": "dads", "remarks": "dasdsadsa"},
+                {"index": 3, "name": "c", "info": "dsads", "num": "4", "status": "dads", "remarks": "dasdsadsa"},
+                {"index": 4, "name": "d", "info": "dsads", "num": "14", "status": "dads", "remarks": "dasdsadsa"}
+            ]
+        }
+        if Docxtpl.genarater(data):
+            Message.tips("模板成功！")

@@ -3,7 +3,6 @@ import sys
 from PyQt5.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QStackedWidget, QDesktopWidget, QListWidget, QApplication, QListWidgetItem
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt
-from view.result import Result
 from view.manager import Manager
 from view.statusBar import StatusBar
 from view.aboutMe import AboutMePanel
@@ -39,11 +38,6 @@ class MainWindowApp(QMainWindow, QWidget):
         self.manager_panel.start()  # 开始线程
         # 右侧面板中添加项目管理组件, !!!!! 注意， 一定要放置在监听start的后面， 否则不能起作用
         self.right_widget.addWidget(self.manager_panel.Qwidgetlayout)
-
-        # *****************************        创建数据采集结果面板实例
-        self.result_panel = Result()
-        # 在堆栈组件中添加数据采集结果组件
-        self.right_widget.addWidget(self.result_panel.main)
 
         # ***************************  关于我们 面板
         self.aboutmepanel = AboutMePanel()
@@ -126,8 +120,8 @@ class MainWindowApp(QMainWindow, QWidget):
         self.left_widget.setFrameShape(QListWidget.NoFrame)
         self.left_widget.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.left_widget.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        nav_list = ['信息录入', '使用手册', '关于我们']
-        nav_list_icons = ["collection.png", "result.png", "aboutme.png"]
+        nav_list = ['信息录入',  '关于我们']
+        nav_list_icons = ["collection.png", "aboutme.png"]
         for nav, icon_name in zip(nav_list, nav_list_icons):
             # 左侧选项的添加
             self.item = QListWidgetItem(QIcon("./img/{}".format(icon_name)), nav, self.left_widget)
@@ -147,10 +141,7 @@ class MainWindowApp(QMainWindow, QWidget):
         self.statusbar.statusbar.update()
 
 
-
 if __name__ == '__main__':
-
-
     app = QApplication(sys.argv)
     main_wnd = MainWindowApp()
     main_wnd.show()
