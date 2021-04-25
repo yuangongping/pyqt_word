@@ -6,6 +6,9 @@ from PyQt5.QtCore import pyqtSignal
 from PyQt5 import QtCore
 from wordTemplates.WordTemplates import Docxtpl
 from view.message import Message
+import json
+import re
+
 
 class Manager(QtCore.QThread):
     signal = pyqtSignal(str)
@@ -133,121 +136,130 @@ class Manager(QtCore.QThread):
         self.purpose_label.setText("实验目的：")
         self.purpose_input = QLineEdit(self.Qwidgetlayout)
         self.purpose_input.setText('')
-        self.purpose_input.setGeometry(QtCore.QRect(150, 100, 1200, 80))
+        self.purpose_input.setGeometry(QtCore.QRect(150, 100, 1200, 60))
+
+        self.experimental_equipment_label = QLabel(self.Qwidgetlayout)
+        self.experimental_equipment_label.setFont(QFont("Microsoft YaHei"))
+        self.experimental_equipment_label.setGeometry(QtCore.QRect(0, 170, 100, 20))
+        self.experimental_equipment_label.setText("实验设备：")
+        self.experimental_equipment_input = QLineEdit(self.Qwidgetlayout)
+        self.experimental_equipment_input.setText('')
+        self.experimental_equipment_input.setGeometry(QtCore.QRect(150, 170, 1200, 60))
 
         self.principle_label = QLabel(self.Qwidgetlayout)
         self.principle_label.setFont(QFont("Microsoft YaHei"))
-        self.principle_label.setGeometry(QtCore.QRect(0, 190, 100, 20))
+        self.principle_label.setGeometry(QtCore.QRect(0, 240, 100, 20))
         self.principle_label.setText("实验原理：")
         self.principle_input = QLineEdit(self.Qwidgetlayout)
         self.principle_input.setText('')
-        self.principle_input.setGeometry(QtCore.QRect(150, 190, 1200, 80))
+        self.principle_input.setGeometry(QtCore.QRect(150, 240, 1200, 60))
 
         self.step_label = QLabel(self.Qwidgetlayout)
         self.step_label.setFont(QFont("Microsoft YaHei"))
-        self.step_label.setGeometry(QtCore.QRect(0, 280, 100, 20))
+        self.step_label.setGeometry(QtCore.QRect(0, 310, 100, 20))
         self.step_label.setText("实验步骤：")
         self.step_input = QLineEdit(self.Qwidgetlayout)
         self.step_input.setText('')
-        self.step_input.setGeometry(QtCore.QRect(150, 280, 1200, 80))
+        self.step_input.setGeometry(QtCore.QRect(150, 310, 1200, 60))
 
         self.operation_recording_label = QLabel(self.Qwidgetlayout)
         self.operation_recording_label.setFont(QFont("Microsoft YaHei"))
-        self.operation_recording_label.setGeometry(QtCore.QRect(0, 370, 150, 20))
+        self.operation_recording_label.setGeometry(QtCore.QRect(0, 380, 150, 20))
         self.operation_recording_label.setText("实验操作及数据记录：")
         self.operation_recording_input = QLineEdit(self.Qwidgetlayout)
         self.operation_recording_input.setText('')
-        self.operation_recording_input.setGeometry(QtCore.QRect(150, 370, 1200, 80))
+        self.operation_recording_input.setGeometry(QtCore.QRect(150, 380, 1200, 60))
 
         self.data_processing_label = QLabel(self.Qwidgetlayout)
         self.data_processing_label.setFont(QFont("Microsoft YaHei"))
-        self.data_processing_label.setGeometry(QtCore.QRect(0, 460, 150, 20))
+        self.data_processing_label.setGeometry(QtCore.QRect(0, 450, 150, 20))
         self.data_processing_label.setText("实验数据处理：")
         self.data_processing_input = QLineEdit(self.Qwidgetlayout)
         self.data_processing_input.setText('')
-        self.data_processing_input.setGeometry(QtCore.QRect(150, 460, 1200, 80))
+        self.data_processing_input.setGeometry(QtCore.QRect(150, 450, 1200, 60))
 
         self.conclusion_label = QLabel(self.Qwidgetlayout)
         self.conclusion_label.setFont(QFont("Microsoft YaHei"))
-        self.conclusion_label.setGeometry(QtCore.QRect(0, 550, 150, 20))
+        self.conclusion_label.setGeometry(QtCore.QRect(0, 520, 150, 20))
         self.conclusion_label.setText("实验结论：")
         self.conclusion_input = QLineEdit(self.Qwidgetlayout)
         self.conclusion_input.setText('')
-        self.conclusion_input.setGeometry(QtCore.QRect(150, 550, 1200, 80))
+        self.conclusion_input.setGeometry(QtCore.QRect(150, 520, 1200, 60))
 
         self.error_analysis_label = QLabel(self.Qwidgetlayout)
         self.error_analysis_label.setFont(QFont("Microsoft YaHei"))
-        self.error_analysis_label.setGeometry(QtCore.QRect(0, 640, 150, 20))
+        self.error_analysis_label.setGeometry(QtCore.QRect(0, 590, 150, 20))
         self.error_analysis_label.setText("系统误差的分析：")
         self.error_analysis_input = QLineEdit(self.Qwidgetlayout)
         self.error_analysis_input.setText('')
-        self.error_analysis_input.setGeometry(QtCore.QRect(150, 640, 1200, 80))
+        self.error_analysis_input.setGeometry(QtCore.QRect(150, 590, 1200, 60))
 
         self.summary_label = QLabel(self.Qwidgetlayout)
         self.summary_label.setFont(QFont("Microsoft YaHei"))
-        self.summary_label.setGeometry(QtCore.QRect(0, 740, 150, 20))
+        self.summary_label.setGeometry(QtCore.QRect(0, 660, 150, 20))
         self.summary_label.setText("实验总结：")
         self.summary_input = QLineEdit(self.Qwidgetlayout)
         self.summary_input.setText('')
-        self.summary_input.setGeometry(QtCore.QRect(150, 740, 1200, 80))
+        self.summary_input.setGeometry(QtCore.QRect(150, 660, 1200, 60))
 
         self.score_preview_label = QLabel(self.Qwidgetlayout)
         self.score_preview_label.setFont(QFont("Microsoft YaHei"))
-        self.score_preview_label.setGeometry(QtCore.QRect(0, 840, 80, 20))
+        self.score_preview_label.setGeometry(QtCore.QRect(0, 730, 80, 20))
         self.score_preview_label.setText("成绩_预习：")
         self.score_preview_input = QLineEdit(self.Qwidgetlayout)
         self.score_preview_input.setText('')
-        self.score_preview_input.setGeometry(QtCore.QRect(80, 840, 150, 20))
+        self.score_preview_input.setGeometry(QtCore.QRect(80, 730, 100, 20))
 
         self.score_preview_label = QLabel(self.Qwidgetlayout)
         self.score_preview_label.setFont(QFont("Microsoft YaHei"))
-        self.score_preview_label.setGeometry(QtCore.QRect(230, 840, 150, 20))
+        self.score_preview_label.setGeometry(QtCore.QRect(200, 730, 150, 20))
         self.score_preview_label.setText("成绩_出勤和课堂纪律：")
         self.score_preview_input = QLineEdit(self.Qwidgetlayout)
         self.score_preview_input.setText('')
-        self.score_preview_input.setGeometry(QtCore.QRect(360, 840, 150, 20))
+        self.score_preview_input.setGeometry(QtCore.QRect(330, 730, 100, 20))
 
         self.score_operation_performance_label = QLabel(self.Qwidgetlayout)
         self.score_operation_performance_label.setFont(QFont("Microsoft YaHei"))
-        self.score_operation_performance_label.setGeometry(QtCore.QRect(520, 840, 150, 20))
+        self.score_operation_performance_label.setGeometry(QtCore.QRect(460, 730, 150, 20))
         self.score_operation_performance_label.setText("成绩_操作表现：")
         self.score_operation_performance_input = QLineEdit(self.Qwidgetlayout)
         self.score_operation_performance_input.setText('')
-        self.score_operation_performance_input.setGeometry(QtCore.QRect(620, 840, 150, 20))
+        self.score_operation_performance_input.setGeometry(QtCore.QRect(560, 730, 100, 20))
 
         self.score_data_processing_label = QLabel(self.Qwidgetlayout)
         self.score_data_processing_label.setFont(QFont("Microsoft YaHei"))
-        self.score_data_processing_label.setGeometry(QtCore.QRect(770, 840, 150, 20))
+        self.score_data_processing_label.setGeometry(QtCore.QRect(700, 730, 150, 20))
         self.score_data_processing_label.setText("成绩_数据处理：")
         self.score_data_processing_input = QLineEdit(self.Qwidgetlayout)
         self.score_data_processing_input.setText('')
-        self.score_data_processing_input.setGeometry(QtCore.QRect(870, 840, 150, 20))
+        self.score_data_processing_input.setGeometry(QtCore.QRect(800, 730, 100, 20))
 
 
         self.score_error_analysis_label = QLabel(self.Qwidgetlayout)
         self.score_error_analysis_label.setFont(QFont("Microsoft YaHei"))
-        self.score_error_analysis_label.setGeometry(QtCore.QRect(1030, 840, 150, 20))
+        self.score_error_analysis_label.setGeometry(QtCore.QRect(930, 730, 150, 20))
         self.score_error_analysis_label.setText("成绩_误差分析：")
         self.score_error_analysis_input = QLineEdit(self.Qwidgetlayout)
         self.score_error_analysis_input.setText('')
-        self.score_error_analysis_input.setGeometry(QtCore.QRect(1120, 840, 150, 20))
+        self.score_error_analysis_input.setGeometry(QtCore.QRect(1020, 730, 100, 20))
 
         self.score_report_writing_label = QLabel(self.Qwidgetlayout)
         self.score_report_writing_label.setFont(QFont("Microsoft YaHei"))
-        self.score_report_writing_label.setGeometry(QtCore.QRect(0, 870, 150, 20))
+        self.score_report_writing_label.setGeometry(QtCore.QRect(1140, 730, 150, 20))
         self.score_report_writing_label.setText("成绩_报告书写：")
         self.score_report_writing_input = QLineEdit(self.Qwidgetlayout)
         self.score_report_writing_input.setText('')
-        self.score_report_writing_input.setGeometry(QtCore.QRect(100, 870, 150, 20))
+        self.score_report_writing_input.setGeometry(QtCore.QRect(1250, 730, 100, 20))
 
         self.btn_start = QPushButton(self.Qwidgetlayout)
         self.btn_start.setFont(QFont("Microsoft YaHei"))
-        self.btn_start.setGeometry(QtCore.QRect(270, 870, 150, 20))
+        self.btn_start.setGeometry(QtCore.QRect(0, 760, 150, 20))
         self.btn_start.setText("生成模板")
         self.btn_start.setObjectName("btn_start")
         self.btn_start.clicked.connect(self.genTemplate)
 
     def genTemplate(self):
+        imgs = re.findall("<img src='(.+)'>", self.operation_recording_input.text())
         data = {
             "school_num": self.school_num_input.text(),
             "year": self.year_input.text(),
@@ -276,12 +288,15 @@ class Manager(QtCore.QThread):
             "score_data_processing": self.score_data_processing_input.text(),
             "score_error_analysis": self.score_error_analysis_input.text(),
             "score_report_writing": self.score_report_writing_input.text(),
-            "experimental_equipment": [
-                {"index": 1, "name": "a", "info": "dsads", "num": "1", "status": "dads", "remarks": "dasdsadsa"},
-                {"index": 2, "name": "b", "info": "dsads", "num": "2", "status": "dads", "remarks": "dasdsadsa"},
-                {"index": 3, "name": "c", "info": "dsads", "num": "4", "status": "dads", "remarks": "dasdsadsa"},
-                {"index": 4, "name": "d", "info": "dsads", "num": "14", "status": "dads", "remarks": "dasdsadsa"}
-            ]
+            "experimental_equipment":  self.parse_json(self.experimental_equipment_input.text()),
+            "imgs": imgs
         }
         if Docxtpl.genarater(data):
             Message.tips("模板成功！")
+
+
+    def parse_json(self, s):
+        try:
+            return json.loads(s)
+        except:
+            return []

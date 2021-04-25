@@ -72,7 +72,7 @@ class MainWindowApp(QMainWindow, QWidget):
         # 设置窗口的高度为电脑屏幕的0.45 倍
         init_height = self.available_geometry.height() * 0.8
         # 设置宽度与高度
-        self.resize(init_width, init_height)
+        self.resize(int(init_width), int(init_height))
 
     def init_sidebar(self):
         """
